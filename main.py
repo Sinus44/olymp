@@ -7,18 +7,20 @@ class Student:
         self.attention = attention
         self.compatibility = compatibility
         self.located = False
-        self.desk = 7
+        self.desk = 5
         
-        if self.vision == "1-3 парты":
-            self.desk = 3
-        elif self.vision == "1-2 парты":
-            self.desk = 2
-        elif self.attention == "TRUE":
-            self.desk = 4
-        elif self.height == "Низкий":
-            self.desk = 5
+        if self.vision == "1-2 парты":
+            self.desk = 0
+        elif self.vision == "1-3 парты":
+            self.desk = 1
+        
+        if self.attention == "TRUE":
+            self.desk -= 1
+            
+        if self.height == "Низкий":
+            self.desk -= 1
         elif self.height == "Средний":
-            self.desk = 6
+            self.desk -= 2
 
 def readData(path):
 	with open(path, 'r', encoding='utf-8') as file:
@@ -44,15 +46,13 @@ def dataToArray(data, useFirstLine=False):
 
 def arrStringsToArrStudents(students, compatibility):
     names = compatibility[0][1:]
-    #print(names)
-    
+
     studentCompatibility = []
     for studentIndex, studentName in enumerate(compatibility[1:]):
         studentCompatibility.append([])
         for index, student in enumerate(studentName[1:]):
             if student == "": continue
             studentCompatibility[studentIndex].append({"name":names[index], "code":student})
-        #print(studentCompatibility[studentIndex])
 
     out = []
     for index, studentArr in enumerate(students):
@@ -67,9 +67,7 @@ def writeOut(studentsArr):
             if index == 34: index = 30
             if index == 35: index = 31
             outData += f"\n{index+1},{student.name}"
-        #print(outData)
         file.write(outData)
-        #print("Файл сохранен")
 
 def sort(students, room):
     result = []
@@ -91,20 +89,13 @@ def sort(students, room):
                 if k == 1:
                     for i2, student in enumerate(students):
                         if student.located: continue
-                        
                         if k1 == 1:
                             neighbour = room[i1][j1][k1-1]
-
                             if neighbour.hand.lower() == "правая" and student.hand.lower() == "левая": continue
-                            #if (int(student.hand.lower() == "правая") and not k1) and (int(student.hand.lower() == "левая") and k1): continue
-                        
-                        #print(f"Сажаем {student.hand.lower()} с {}")
                         
                         room[i1][j1][k1] = student
                         student.located = True
                         break
-                            
-                        
                       
     for _, i in enumerate(room):
         for _, j in enumerate(i):
@@ -131,5 +122,4 @@ room = [
 ]
 
 out = sort(students, room)
-#print(out)
 writeOut(out)
