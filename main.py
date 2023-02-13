@@ -7,7 +7,7 @@ class Student:
         self.attention = attention
         self.compatibility = compatibility
         self.located = False
-        self.desk = 5
+        self.desk = 7
         
         if self.vision == "1-3 парты":
             self.desk = 3
@@ -15,6 +15,10 @@ class Student:
             self.desk = 2
         elif self.attention == "TRUE":
             self.desk = 4
+        elif self.height == "Низкий":
+            self.desk = 5
+        elif self.height == "Средний":
+            self.desk = 6
 
 def readData(path):
 	with open(path, 'r', encoding='utf-8') as file:
