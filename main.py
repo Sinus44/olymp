@@ -1,16 +1,18 @@
-import re
-
 class Student:
     def __init__(self, name, hand, vision, height, attention, compatibility):
         self.name = name
-        self.hand = 0 if hand.upper() == "ЛЕВАЯ" else 1 
+        self.hand = hand
         self.vision = vision
         self.height = height
         self.attention = attention
         self.compatibility = compatibility
-        self.maxDesk = 100
-        self.position = []
         self.located = False
+        self.desk = 4
+        
+        if self.vision == "1-3 парты":
+            self.desk = 3
+        elif self.vision == "1-2 парты":
+            self.desk = 2
 
 def readData(path):
 	with open(path, 'r', encoding='utf-8') as file:
@@ -75,6 +77,8 @@ def sort(students, room):
                 room[0][1][1] = student
                 student.located = True
 
+    students = sorted(students, key=lambda student: student.desk)
+    
     for i1, i in enumerate(room):
         for j1, j in enumerate(i):
             for k1, k in enumerate(j):
@@ -84,16 +88,12 @@ def sort(students, room):
                         room[i1][j1][k1] = student
                         student.located = True
                         break
-                        
-                
-        
-                
+                      
     for _, i in enumerate(room):
         for _, j in enumerate(i):
             for _, k in enumerate(j):
                 result.append(k)
-        
-             
+    
     return result
 
 input_data = readData("input_data.csv")
@@ -114,5 +114,5 @@ room = [
 ]
 
 out = sort(students, room)
-print(out)
+#print(out)
 writeOut(out)
