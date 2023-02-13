@@ -85,10 +85,18 @@ def sort(students, room):
                 if k == 1:
                     for i2, student in enumerate(students):
                         if student.located: continue
-                        if int(student.hand.lower() == "правая") == k1 or k1 == 0 or students[i2-1].hand == student.hand:
-                            room[i1][j1][k1] = student
-                            student.located = True
-                            break
+                        
+                        if k1 == 1:
+                            neighbour = room[i1][j1][k1-1]
+
+                            if neighbour.hand.lower() == "правая" and student.hand.lower() == "левая": continue
+                            #if (int(student.hand.lower() == "правая") and not k1) and (int(student.hand.lower() == "левая") and k1): continue
+                        
+                        #print(f"Сажаем {student.hand.lower()} с {}")
+                        
+                        room[i1][j1][k1] = student
+                        student.located = True
+                        break
                             
                         
                       
