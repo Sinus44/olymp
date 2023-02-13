@@ -83,11 +83,14 @@ def sort(students, room):
         for j1, j in enumerate(i):
             for k1, k in enumerate(j):
                 if k == 1:
-                    for _, student in enumerate(students):
+                    for i2, student in enumerate(students):
                         if student.located: continue
-                        room[i1][j1][k1] = student
-                        student.located = True
-                        break
+                        if int(student.hand.lower() == "правая") == k1 or k1 == 0 or students[i2-1].hand == student.hand:
+                            room[i1][j1][k1] = student
+                            student.located = True
+                            break
+                            
+                        
                       
     for _, i in enumerate(room):
         for _, j in enumerate(i):
